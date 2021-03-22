@@ -29,6 +29,7 @@ dependencies:
   equatable: ^2.0.0
   flutter_test_ui: ^1.0.0
   mockito: ^5.0.0
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
