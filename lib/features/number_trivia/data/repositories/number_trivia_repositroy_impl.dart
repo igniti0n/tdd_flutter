@@ -1,5 +1,5 @@
 import 'package:tdd/core/error/exceptions.dart';
-import 'package:tdd/core/platform/network_info.dart';
+import 'package:tdd/core/network/network_info.dart';
 import 'package:tdd/features/number_trivia/data/datasources/local_data_source.dart';
 import 'package:tdd/features/number_trivia/data/datasources/network_data_source.dart';
 import 'package:tdd/features/number_trivia/data/models/number_trivia_model.dart';
