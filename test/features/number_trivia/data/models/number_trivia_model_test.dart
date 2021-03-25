@@ -40,7 +40,7 @@ void main() {
         'number': 1,
       };
 
-      final result = NumberTriviaModel.toJson(numberTriviaModel);
+      final result = numberTriviaModel.toJson();
 
       expect(result, equals(representingMap));
     });

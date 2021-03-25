@@ -28,6 +28,7 @@ dependencies:
   data_connection_checker: ^0.3.4
   equatable: ^2.0.0
   flutter_test_ui: ^1.0.0
+  http: ^0.13.1
   mockito: ^5.0.0
   shared_preferences: ^2.0.5
 

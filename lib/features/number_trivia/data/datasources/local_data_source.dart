@@ -9,8 +9,7 @@ abstract class LocalDataSource {
 
   Future<NumberTriviaModel> getNumberTrivia();
 
-  Future<NumberTriviaModel> casheNumberTrivia(
-      NumberTriviaModel numberTriviaModel);
+  Future<void> casheNumberTrivia(NumberTriviaModel numberTriviaModel);
 }
 
 const String cashedNumberTriviaKey = 'CASHED_NUMBER_TRIVIA';
@@ -21,10 +20,9 @@ class LocalDataSourceImpl extends LocalDataSource {
   const LocalDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<NumberTriviaModel> casheNumberTrivia(
-      NumberTriviaModel numberTriviaModel) {
-    // TODO: implement casheNumberTrivia
-    throw UnimplementedError();
+  Future<void> casheNumberTrivia(NumberTriviaModel numberTriviaModel) {
+    return sharedPreferences.setString(
+        cashedNumberTriviaKey, json.encode(numberTriviaModel.toJson()));
   }
 
   @override
@@ -33,7 +31,10 @@ class LocalDataSourceImpl extends LocalDataSource {
 
     final String? savedString =
         sharedPreferences.getString(cashedNumberTriviaKey);
-    if (savedString == null) throw CasheException();
-    return Future.value(NumberTriviaModel.fomJson(json.decode(savedString)));
+    if (savedString == null) {
+      throw CasheException();
+    } else {
+      return Future.value(NumberTriviaModel.fomJson(json.decode(savedString)));
+    }
   }
 }

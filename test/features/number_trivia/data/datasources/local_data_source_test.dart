@@ -1,6 +1,5 @@
 // @dart=2.9
 
-import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,15 +16,14 @@ void main() {
   MockSharedPreferences mockSharedPreferences;
   LocalDataSourceImpl dataSource;
 
-    setUp(() {
-      mockSharedPreferences = MockSharedPreferences();
-      dataSource = LocalDataSourceImpl(mockSharedPreferences);
-    });
+  setUp(() {
+    mockSharedPreferences = MockSharedPreferences();
+    dataSource = LocalDataSourceImpl(mockSharedPreferences);
+  });
+  final String tJsonString = parseFixture('trivia_cashed.json');
+  final NumberTriviaModel triviaModel =
+      NumberTriviaModel.fomJson(json.decode(tJsonString));
   test('should return cashed NUmberTrivia form shared preferences', () async {
-    final String tJsonString = parseFixture('trivia_cashed.json');
-    final NumberTriviaModel triviaModel =
-       NumberTriviaModel.fomJson(json.decode(tJsonString));
-
     //arrange
     when(mockSharedPreferences.getString(cashedNumberTriviaKey))
         .thenReturn(tJsonString);
@@ -35,16 +33,27 @@ void main() {
     expect(result, triviaModel);
   });
 
-    test('should throw CasheException when getting String form shared preferences and no String is saved', ()  {
-    
-
+  test(
+      'should throw CasheException when getting String form shared preferences and no String is saved',
+      () {
     //arrange
     when(mockSharedPreferences.getString(cashedNumberTriviaKey))
         .thenReturn(null);
     //act
-    final call =  dataSource.getNumberTrivia;
+    final call = dataSource.getNumberTrivia;
     //assert
-    expect(() => call(),throwsA(CasheException()));
+    expect(() => call(), throwsA(isInstanceOf<CasheException>()));
   });
 
+  final NumberTriviaModel testModel = NumberTriviaModel('text', 4);
+
+  test('should cashe number trivia', () {
+    //act
+    dataSource.casheNumberTrivia(testModel);
+    //assert
+    final testString = json.encode(testModel.toJson());
+
+    verify(mockSharedPreferences.setString(cashedNumberTriviaKey, testString))
+        .called(1);
+  });
 }

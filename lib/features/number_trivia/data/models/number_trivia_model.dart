@@ -10,10 +10,10 @@ class NumberTriviaModel extends NumberTrivia {
     );
   }
 
-  static Map<String, dynamic> toJson(NumberTriviaModel model) {
+  Map<String, dynamic> toJson() {
     return {
-      'text': model.text,
-      'number': model.number,
+      'text': text,
+      'number': number,
     };
   }
 }
