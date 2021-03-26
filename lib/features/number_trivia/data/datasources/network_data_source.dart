@@ -1,3 +1,4 @@
+import 'package:tdd/core/error/exceptions.dart';
 import 'package:tdd/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -14,17 +15,22 @@ class NetworkDataSourceImpl extends NetworkDataSource {
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) async {
-    final response = await client.get(
-      Uri(path: 'http://numbersapi.com/$number'),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    return NumberTriviaModel.fomJson(json.decode(response.body));
+    return getNumberTriviaFromUrl('http://numbersapi.com/$number');
   }
 
   @override
-  Future<NumberTriviaModel> getRandomNumberTrivia() {
-    // TODO: implement getRandomNumberTrivia
-    throw UnimplementedError();
+  Future<NumberTriviaModel> getRandomNumberTrivia() async {
+    return getNumberTriviaFromUrl('http://numbersapi.com/random');
+  }
+
+  Future<NumberTriviaModel> getNumberTriviaFromUrl(String url) async {
+    final response = await client.get(
+      Uri(path: url),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode != 200) throw ServerException();
+
+    return NumberTriviaModel.fomJson(jsonDecode(response.body));
   }
 }

@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  dartz: ^0.9.2
+  dartz: ^0.10.0-nullsafety.1
   data_connection_checker: ^0.3.4
   equatable: ^2.0.0
   flutter_test_ui: ^1.0.0
