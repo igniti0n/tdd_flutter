@@ -36,6 +36,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
 
       yield* either.fold(
         (fialure) async* {
+          print("Getting trivia for concrete number");
           yield Error(message: INPUT_EXCEPTION);
         },
         (integer) async* {

@@ -5,6 +5,7 @@ import 'package:tdd/features/number_trivia/domain/enteties/number_trivia.dart';
 class InputConverter {
   Either<Failure, int> stringToUnsignedInt(String text) {
     try {
+      print(text);
       final int number = int.parse(text);
       if (number < 0) throw FormatException();
       return Right(number);

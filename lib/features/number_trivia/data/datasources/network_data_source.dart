@@ -15,20 +15,20 @@ class NetworkDataSourceImpl extends NetworkDataSource {
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) async {
-    return getNumberTriviaFromUrl('http://numbersapi.com/$number');
+    return getNumberTriviaFromUrl('/$number');
   }
 
   @override
   Future<NumberTriviaModel> getRandomNumberTrivia() async {
-    return getNumberTriviaFromUrl('http://numbersapi.com/random');
+    return getNumberTriviaFromUrl('/random');
   }
 
-  Future<NumberTriviaModel> getNumberTriviaFromUrl(String url) async {
+  Future<NumberTriviaModel> getNumberTriviaFromUrl(String path) async {
+    print("RESPONSE: ");
     final response = await client.get(
-      Uri(path: url),
+      Uri.https('numbersapi.com', path),
       headers: {'Content-Type': 'application/json'},
     );
-
     if (response.statusCode != 200) throw ServerException();
 
     return NumberTriviaModel.fomJson(jsonDecode(response.body));
